@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans+Condensed:300|Oswald|Roboto&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+        <!--font awesome-->
+        <script src="https://kit.fontawesome.com/bd832a5ee6.js" crossorigin="anonymous"></script>
+        <!-- title icon  -->
+        <link rel="shortcut icon" href="" />
+        <!--custom styling-->
+         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+         <!--google fonts-->
+         <link href="https://fonts.googleapis.com/css?family=Candal&display=swap" rel="stylesheet">
+        <title>Login</title>
+    </head>
+    <body>
+        <!--TODO include here-->
+       
+       <!-- // TODO include here-->
+        <!--Page Wrapper-->
+        <div class="auth-content">
+            <div class="msg">{{ msg }}</div>
+                <h2 class="form-title">Login</h2> 
+
+            <form action="{{ url_for('login') }}" method="post"  enctype="multipart/form-data">
+                
+                    <div>
+                        <label for="">Username</label>
+                        <input type="text" id="username" name="username" value="" class="text-input" placeholder="Enter username here..">
+                    </div>
+                   
+                   <div>
+                       <label for="">Password</label>
+                       <input type="password" id="password" name="password" value="" class="text-input" placeholder="Enter Password here..">
+                   </div>
+                   
+                   <div>
+                       <button type="submit" name="login-btn" class="btn btn-big" value="Sign In">Login</button>
+                   </div>
+                   <p><a href="">Forgot Password?</a></p>
+                 
+                   <p>Or <a href="{{ url_for('register') }}">Sign Up</a></p>
+                
+            </form>
+             
+ 
+        </div>
+        <!--Page Wrapper-->
+        
+         
+        
+
+     <!--JQuery-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+       
+  
+
+     <!--Custom Click for menu bar-->
+
+    </body>
+</html>

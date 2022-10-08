@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Facial Capture</title>
+</head>
+<body>
+  <!-- <header>
+    <div class="logo">
+    <a href="{{url_for('login')}}"><img src="" alt="LOGO" class="header-logo"></a>
+    </div>
+    
+    <i class="fa fa-bars menu-toggle" ></i>
+    <Ul class="nav">
+      <button class="btn"><a href="{{url_for('login')}}">Admin Login</a></button>
+
+     </Ul> 
+   </header> -->
+    <div class="page-wrapper">
+      <div class="msg">{{ msg }}</div>
+
+        <img src="{{ url_for('video_feed') }}" height="80%">
+
+        <form action="{{ url_for('tasks') }}" method="post"  enctype="multipart/form-data">
+           
+            <!-- <div class="capture-box">
+            </div> -->
+            
+            
+          <button type="submit" id="capture" value="capture" name="click" class="btn btn-big">Capture</button>
+           <!-- &nbsp;
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a> -->
+        </form>
+        
+    </div>
+</body>
+</html>

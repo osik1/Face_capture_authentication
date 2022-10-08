@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--font awesome-->
+    <script src="https://kit.fontawesome.com/bd832a5ee6.js" crossorigin="anonymous"></script>
+     <!-- lightbox for images -->
+     <link rel="stylesheet" href="{{ url_for('static', filename='lightbox.min.css') }}">
+     <script src="{{ url_for('static', filename='lightbox-plus-jquery.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Users</title>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <div class="left-sidebar">
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
+               <li><a href="{{ url_for('users') }}"><i class="fa fa-users" aria-hidden="true"></i> Manage Users</a></li>
+                <li><a href="{{ url_for('users_online') }}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Users Online</a></li>
+                <li><a href="{{ url_for('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+            </ul>  
+</div> 
+        <div class="admin-content">
+            
+            <div class="content">
+                <h2 class="page-title">Manage Users</h2> 
+                
+                <table>
+                    <thead>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Captured Image</th>
+                        <th>Login Time</th>
+                        <th colspan="1">Action</th>
+                        
+                        <tbody>
+         
+                            <tr>
+                                <td>1</td>
+                                <td><a href="">Prosper</a></td>
+                                <td><a href="profile-pic.jpg" data-lightbox="mygallery" data-title="Prosper"><img src="profile-pic.jpg" class="profile-pic"></a></td>
+                                <td>3/09/2022</td> 
+                                <td><a href="javascript:void(0)" rel="" class="suspend">Suspend</a></td>
+                             </tr>
+
+                             <tr>
+                                <td>2</td>
+                                <td><a href="">Vudugah</a></td>
+                                <td><a href="profile-pic.jpg" data-lightbox="mygallery" data-title="Prosper"><img src="profile-pic.jpg" class="profile-pic"></a></td>
+                                <td>3/09/2022</td> 
+                                <td><a href="javascript:void(0)" rel="" class="suspend">Suspend</a></td>
+                             </tr>
+                        
+                          
+                        </tbody>
+                    </thead>
+                </table>
+            </div> 
+        </div>
+    </div>
+</body>
+</html>
