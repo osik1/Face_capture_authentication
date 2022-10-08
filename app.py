@@ -41,15 +41,14 @@ def login():
 			session['id'] = user['id']
 			session['username'] = user['username']
 			msg = 'put on your camera and take a photo'
-            # if user['username'] == "Admin":
-            #     return redirect(url_for('dashboard'))
-            # else:
-			return redirect(url_for('captcha'))
-                              
+			if user['username'] == "Admin":
+				return redirect(url_for('dashboard'))
+			else:
+				return redirect(url_for('captcha'))
+                         
 		else:
 			msg = 'Incorrect username / password !'
 	return render_template('login.html', msg = msg)
-
 
 
 
@@ -57,9 +56,7 @@ def login():
 # and re-enter them into the database when a user takes a picture 
 @app.route('/capture', methods =['GET', 'POST'])
 def captcha():
-    # if 'username' == "Admin": #take admin to dashboard
-    #         msg = 'Welcome back to your dashboard'
-    #         return redirect(url_for('dashboard'), msg = msg)
+    
     if 'username' not in session:
          return redirect(url_for('login'))
     
@@ -146,6 +143,17 @@ def users():
         return redirect(url_for('login')) 
   else:
        return render_template('users.html')
+
+
+
+@app.route('/users')### Will continue from here
+def allusers():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM users')
+    reguser = cursor.fetchall()
+    if reguser:
+        return render_template('users.html', reguser = reguser)
+    	
 
 
 
