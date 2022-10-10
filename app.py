@@ -7,6 +7,8 @@ import re
 from capture import detect_face, gen_frames, camera
 
 
+
+
 #instatiate flask app  
 app = Flask(__name__)
 
@@ -17,7 +19,7 @@ app.secret_key = 'your secret key'
 # CONNECT APP TO DATABASE
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Osik@0555253975'
+app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = 'authentication'
 
 mysql = MySQL(app)
@@ -133,32 +135,24 @@ def register():
 	return render_template('register.html', msg = msg)
 	
 
-
-
-
-# ALL USERS
-@app.route('/users')
+#FETCH ALL USERS FUNCTION
+def everyUser():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM users')
+    regusers = cursor.fetchall()
+    return regusers
+  
+    
+# ALL USERS ROUTE FUNCTION
+@app.route('/users', methods =['GET', 'POST'])
 def users():
   if 'username' not in session and 'username' != "Admin": # if user is not loggedin and not admin redirect to login page
         return redirect(url_for('login')) 
   else:
-       return render_template('users.html')
-
-
-
-@app.route('/users')### Will continue from here
-def allusers():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM users')
-    reguser = cursor.fetchall()
-    if reguser:
-        return render_template('users.html', reguser = reguser)
-    	
-
-
-
-
-
+      user = everyUser()
+      return render_template('users.html', users = user)
+ 
+  
 #ALL USERS ONLINE
 @app.route('/users-online')
 def users_online():
@@ -166,9 +160,6 @@ def users_online():
         return redirect(url_for('login')) 
     else:
        return render_template('usersOnline.html')
-
-
-
 
 
 # DASHBOARD
@@ -185,7 +176,7 @@ def dashboard():
 
 
 
-	# UPLOADING IMAGE IN FLASK
+	# UPLOADING IMAGE 
 # picture = db.Column(db.String(254), nullable=True)
 #  if request.method == 'POST':
 #         title = request.form['title']

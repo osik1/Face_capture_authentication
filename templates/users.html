@@ -31,30 +31,24 @@
                     <thead>
                         <th>ID</th>
                         <th>Username</th>
-                        <th>Captured Image</th>
-                        <th>Login Time</th>
+                        <th>Email</th>
                         <th colspan="1">Action</th>
-                        
-                        <tbody>
-         
-                            <tr>
-                                <td>1</td>
-                                <td><a href="">Prosper</a></td>
-                                <td><a href="profile-pic.jpg" data-lightbox="mygallery" data-title="Prosper"><img src="profile-pic.jpg" class="profile-pic"></a></td>
-                                <td>3/09/2022</td> 
-                                <td><a href="javascript:void(0)" rel="" class="suspend">Suspend</a></td>
-                             </tr>
+                        {% block content %}
 
-                             <tr>
-                                <td>2</td>
-                                <td><a href="">Vudugah</a></td>
-                                <td><a href="profile-pic.jpg" data-lightbox="mygallery" data-title="Prosper"><img src="profile-pic.jpg" class="profile-pic"></a></td>
-                                <td>3/09/2022</td> 
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td><a href="">{{ user.username }}</a></td>
+                                <td>{{ user.email }}</td> 
                                 <td><a href="javascript:void(0)" rel="" class="suspend">Suspend</a></td>
                              </tr>
-                        
-                          
+                        {% endfor %}
+                             
                         </tbody>
+
+                        {% endblock %}
+
                     </thead>
                 </table>
             </div> 
