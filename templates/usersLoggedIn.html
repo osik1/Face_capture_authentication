@@ -18,7 +18,7 @@
             <ul>
                 <li><a href="{{ url_for('dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
                <li><a href="{{ url_for('users') }}"><i class="fa fa-users" aria-hidden="true"></i> Manage Users</a></li>
-                <li><a href="{{ url_for('users_online') }}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Users Online</a></li>
+                <li><a href="{{ url_for('users_loggedin') }}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> loggedIn Users</a></li>
                 <li><a href="{{ url_for('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
             </ul>  
 </div> 
@@ -34,18 +34,23 @@
                         <th>Captured Image</th>
                         <th>Login Time</th>
                         <th colspan="1">Action</th>
-                        
+
+                    {% block content %}
                         <tbody>
-         
+                        {% for userLoggedIn in users %}
+
                             <tr>
-                                <td>1</td>
-                                <td><a href="">Prosper</a></td>
-                                <td><a href="profile-pic.jpg" data-lightbox="mygallery" data-title="Prosper"><img src="profile-pic.jpg" class="profile-pic"></a></td>
-                                <td>3/09/2022</td> 
+                                <td>{{ userLoggedIn.id }}</td>
+                                <td><a href="">{{ userLoggedIn.username }}</a></td>
+                                <td><a href="{{ userLoggedIn.image }}" data-lightbox="mygallery" data-title="Prosper"><img src="{{ userLoggedIn.image }}" class="profile-pic"></a></td>
+                                <td>{{ userLoggedIn.created_at }}</td> 
                                 <td><a href="javascript:void(0)" rel="" class="suspend">Suspend</a></td>
                              </tr>
 
+                        {% endfor %}
                         </tbody>
+                    {% endblock %}
+
                     </thead>
                 </table>
             </div> 

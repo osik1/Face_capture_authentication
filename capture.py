@@ -54,7 +54,7 @@ def detect_face(frame):
  
 
 def gen_frames():  # generate frame by frame from camera
-    global out, capture,rec_frame
+    global out, capture
     while True:
         success, frame = camera.read() 
         if success:   
@@ -78,8 +78,7 @@ def gen_frames():  # generate frame by frame from camera
 
 
 
-# if __name__ == '__main__':
-#     app.run()
-    
-camera.release()
+if __name__ == '__main__':
+    # app.run()
+ camera.release()
 cv2.destroyAllWindows()     

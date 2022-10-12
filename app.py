@@ -1,10 +1,17 @@
-# import cv2 
 from pydoc import pager
 from flask import Flask, render_template, request, redirect, url_for, session, Response
+from capture import detect_face, gen_frames, camera
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
-from capture import detect_face, gen_frames, camera
+# import cv2 
+# import datetime, time
+# import os, sys
+# import numpy as np
+# from threading import Thread
+
+# global capture
+# capture=0
 
 
 
@@ -54,6 +61,68 @@ def login():
 
 
 
+# DASHBOARD
+@app.route('/dashboard')
+def dashboard():
+    if 'username' not in session and 'username' !=  "Admin": # if user is not loggedin and not admin redirect to login page
+        return redirect(url_for('login')) 
+    else:
+        msg = f'{session["username"]} , Welcome to the dashboad'
+
+    return render_template('dashboard.html', msg = msg)
+
+	
+
+#FETCH ALL USERS FUNCTION
+def everyUser():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM users')
+    regusers = cursor.fetchall()
+    return regusers
+  
+    
+# ALL USERS ROUTE FUNCTION
+@app.route('/users', methods =['GET', 'POST'])
+def users():
+  if 'username' not in session and 'username' != "Admin": # if user is not loggedin and not admin redirect to login page
+        return redirect(url_for('login')) 
+  else:
+      user = everyUser()
+      return render_template('users.html', users = user)
+ 
+ 
+ #FETCH ALL LOGEDIN USERS FUNCTION
+def everyLogedin():
+     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+     cursor.execute('SELECT * FROM users_online')
+     allLogedin = cursor.fetchall()
+     return allLogedin
+ 
+  
+#ALL USERS ONLINE
+@app.route('/users-loggedin', methods =['GET', 'POST'])
+def users_loggedin():
+    if 'username' not in session and 'username' !=  "Admin": # if user is not loggedin and not admin redirect to login page
+        return redirect(url_for('login')) 
+    else:
+       userLoggedIn = everyLogedin()
+       return render_template('usersLoggedIn.html', users = userLoggedIn)
+
+
+
+
+
+#make shots directory to save pics
+# try:
+#     os.mkdir('./shots')
+# except OSError as error:
+#     pass
+
+
+#Load pretrained face detection model    
+# net = cv2.dnn.readNetFromCaffe('./saved_model/deploy.prototxt.txt', './saved_model/res10_300x300_ssd_iter_140000.caffemodel')
+
+
 # i will get the username and session id when the user is directed to this page
 # and re-enter them into the database when a user takes a picture 
 @app.route('/capture', methods =['GET', 'POST'])
@@ -63,22 +132,40 @@ def captcha():
          return redirect(url_for('login'))
     
     elif 'username' in session:
-            msg = f'{session["username"]} , make sure your face is in the frame and click on the capture button'
+        
+            # captured = camera
 
+            msg = f'{session["username"]} , make sure your face is in the frame and click on the capture button'
+            if request.method == 'POST':
+                username = session['username']
+                captured = request.form['captured']
+                if not captured:
+                    redirect(url_for('captcha'))
+                else:
+                    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                    cursor.execute('INSERT INTO users_online(username, captured) VALUES(%s, %s)', (username, captured))
+                    mysql.connection.commit()
+                    return redirect(url_for('dashboard'))
 
     return render_template('capture.html', msg = msg)  
 
 
 
 
+##USER HOME PAGE ROOT
+@app.route('/home')
+def home():
+    return render_template('index.html')
 
+
+###VIDEO FEED FUNCTION
 @app.route('/video_feed')
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 
-
+##REQUEST FUNCTION
 @app.route('/requests',methods=['POST','GET'])
 def tasks():
     global switch,camera
@@ -133,44 +220,9 @@ def register():
 	elif request.method == 'POST':
 		msg = 'Please fill out the form !'
 	return render_template('register.html', msg = msg)
-	
-
-#FETCH ALL USERS FUNCTION
-def everyUser():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM users')
-    regusers = cursor.fetchall()
-    return regusers
-  
-    
-# ALL USERS ROUTE FUNCTION
-@app.route('/users', methods =['GET', 'POST'])
-def users():
-  if 'username' not in session and 'username' != "Admin": # if user is not loggedin and not admin redirect to login page
-        return redirect(url_for('login')) 
-  else:
-      user = everyUser()
-      return render_template('users.html', users = user)
- 
-  
-#ALL USERS ONLINE
-@app.route('/users-online')
-def users_online():
-    if 'username' not in session and 'username' !=  "Admin": # if user is not loggedin and not admin redirect to login page
-        return redirect(url_for('login')) 
-    else:
-       return render_template('usersOnline.html')
 
 
-# DASHBOARD
-@app.route('/dashboard')
-def dashboard():
-    if 'username' not in session and 'username' !=  "Admin": # if user is not loggedin and not admin redirect to login page
-        return redirect(url_for('login')) 
-    else:
-        msg = f'{session["username"]} , Welcome to the dashboad'
 
-    return render_template('dashboard.html', msg = msg)
 
 
 
