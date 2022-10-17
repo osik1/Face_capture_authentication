@@ -5,38 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <!-- Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
-
     <title>Facial Capture</title>
 </head>
 <body>
-  <!-- <header>
-    <div class="logo">
-    <a href="{{url_for('login')}}"><img src="" alt="LOGO" class="header-logo"></a>
-    </div>
-    
-    <i class="fa fa-bars menu-toggle" ></i>
-    <Ul class="nav">
-      <button class="btn"><a href="{{url_for('login')}}">Admin Login</a></button>
-
-     </Ul> 
-   </header> -->
     <div class="page-wrapper">
-      <div class="msg">{{ msg }}</div>
-      <!-- <div class="col-lg-8  offset-lg-2"> -->
-        <img src="{{ url_for('video_feed') }}" width="80%">
-      <!-- </div> -->
+     
         <form action="{{ url_for('tasks') }}" method="post"  enctype="multipart/form-data">
+          <div class="msg">{{ msg }}</div>
+          <br>
            
-            <!-- <div class="capture-box">
-            </div> -->
-            
+          <img src="{{ url_for('video_feed') }}" width="100%">
+
             
           <button type="submit" id="capture" value="capture" name="click" class="btn btn-big">Capture</button>
-           <!-- &nbsp;
-            <a href="{{ url_for('logout') }}" class="btn">Logout</a> -->
+           
         </form>
         
     </div>

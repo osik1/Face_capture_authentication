@@ -1,17 +1,10 @@
+from capture import detect_face, gen_frames, camera
 from pydoc import pager
 from flask import Flask, render_template, request, redirect, url_for, session, Response
-from capture import detect_face, gen_frames, camera
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
-# import cv2 
-# import datetime, time
-# import os, sys
-# import numpy as np
-# from threading import Thread
 
-# global capture
-# capture=0
 
 
 
@@ -109,20 +102,6 @@ def users_loggedin():
        return render_template('usersLoggedIn.html', users = userLoggedIn)
 
 
-
-
-
-#make shots directory to save pics
-# try:
-#     os.mkdir('./shots')
-# except OSError as error:
-#     pass
-
-
-#Load pretrained face detection model    
-# net = cv2.dnn.readNetFromCaffe('./saved_model/deploy.prototxt.txt', './saved_model/res10_300x300_ssd_iter_140000.caffemodel')
-
-
 # i will get the username and session id when the user is directed to this page
 # and re-enter them into the database when a user takes a picture 
 @app.route('/capture', methods =['GET', 'POST'])
@@ -136,16 +115,8 @@ def captcha():
             # captured = camera
 
             msg = f'{session["username"]} , make sure your face is in the frame and click on the capture button'
-            if request.method == 'POST':
-                username = session['username']
-                captured = request.form['captured']
-                if not captured:
-                    redirect(url_for('captcha'))
-                else:
-                    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-                    cursor.execute('INSERT INTO users_online(username, captured) VALUES(%s, %s)', (username, captured))
-                    mysql.connection.commit()
-                    return redirect(url_for('dashboard'))
+            
+                
 
     return render_template('capture.html', msg = msg)  
 
@@ -173,6 +144,15 @@ def tasks():
         if request.form.get('click') == 'Capture':
             global capture
             capture=1
+            username = session['username']
+            captured = capture
+            if not captured:
+                    redirect(url_for('captcha'))
+            else:
+                    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                    cursor.execute('INSERT INTO users_online(username, image) VALUES(%s, %s)', (username, captured))
+                    mysql.connection.commit()
+                    return redirect(url_for('index'))
                 
     elif request.method == 'GET':
         return render_template('capture.html')
