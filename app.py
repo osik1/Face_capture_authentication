@@ -140,8 +140,8 @@ def video_feed():
 @app.route('/requests',methods=['POST','GET'])
 def tasks():
     global switch,camera
-    if request.method == 'POST':
-        if request.form.get('click') == 'Capture':
+    if request.method == 'POST' and request.form.get('click') == 'capture':
+        # if request.form.get('click') == 'Capture':
             global capture
             capture=1
             username = session['username']
@@ -152,7 +152,7 @@ def tasks():
                     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                     cursor.execute('INSERT INTO users_online(username, image) VALUES(%s, %s)', (username, captured))
                     mysql.connection.commit()
-                    return redirect(url_for('index'))
+                    return redirect(url_for('home'))
                 
     elif request.method == 'GET':
         return render_template('capture.html')
@@ -171,6 +171,13 @@ def logout():
 	return redirect(url_for('login'))
 
 
+# DELETE USER FUNCTION
+@app.route('/delete/<id_data>', methods = ['GET'])
+def delete(id_data):
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM users WHERE id = {0}'.format(id_data))
+    mysql.connection.commit()
+    return redirect(url_for('users'))
 
 
 
