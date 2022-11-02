@@ -41,10 +41,10 @@
 
                             <tr>
                                 <td>{{ userLoggedIn.id }}</td>
-                                <td><a href="">{{ userLoggedIn.username }}</a></td>
+                                <td><a href="">{{ userLoggedIn.username }}</a></td> 
                                 <td><a href="{{ userLoggedIn.image }}" data-lightbox="mygallery" data-title="Prosper"><img src="{{ userLoggedIn.image }}" class="profile-pic"></a></td>
                                 <td>{{ userLoggedIn.created_at }}</td> 
-                                <td><a href="javascript:void(0)" rel="" class="suspend">Suspend</a></td>
+                                <td><a href="{{ url_for('delete-online', id_data=user.id) }}" rel="" class="suspend">Suspend</a></td>
                              </tr>
 
                         {% endfor %}

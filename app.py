@@ -19,8 +19,8 @@ app.secret_key = 'your secret key'
 # CONNECT APP TO DATABASE
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'password'
-app.config['MYSQL_DB'] = 'authentication'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'face_capture'
 
 mysql = MySQL(app)
 
@@ -102,6 +102,7 @@ def users_loggedin():
        return render_template('usersLoggedIn.html', users = userLoggedIn)
 
 
+
 # i will get the username and session id when the user is directed to this page
 # and re-enter them into the database when a user takes a picture 
 @app.route('/capture', methods =['GET', 'POST'])
@@ -180,6 +181,14 @@ def delete(id_data):
     return redirect(url_for('users'))
 
 
+# DELETE USER ONLINE FUNCTION
+@app.route('/delete-online/<id_data>', methods = ['GET'])
+def delete_online(id_data):
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM users_online WHERE id = {0}'.format(id_data))
+    mysql.connection.commit()
+    return redirect(url_for('users_loggedin'))
+
 
 # REGISTER FUNCTION
 @app.route('/register', methods =['GET', 'POST'])
@@ -215,18 +224,4 @@ def register():
 
 
 
-	# UPLOADING IMAGE 
-# picture = db.Column(db.String(254), nullable=True)
-#  if request.method == 'POST':
-#         title = request.form['title']
-#         price = request.form['price']
-#         description = request.form['description']
-        
-#         # accept uploaded image
-#         uploaded = request.files.get('image')
-#         if uploaded and uploaded.filename:
-#             filename = secure_filename(uploaded.filename)
-#             uploaded_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-#             uploaded.save(path)
-#             image = uploaded_path
 
